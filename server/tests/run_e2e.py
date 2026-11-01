@@ -67,6 +67,8 @@ def main() -> int:
         try:
             if not (wait_for("http://127.0.0.1:8766/") and wait_for("http://127.0.0.1:8765/")):
                 print("Os servidores de teste não subiram. Veja se as portas 8765/8766 estão livres.")
+                log.flush()
+                print((Path(tmp) / "server.log").read_text(encoding="utf-8", errors="replace")[-3000:])
                 return 1
             return subprocess.call([PY, str(ROOT / "tests" / "e2e_test.py")], env=env)
         finally:
